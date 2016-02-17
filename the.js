@@ -1,9 +1,9 @@
 'use strict'
-const size = 658
-const canvas = document.getElementById('pablo')
+var size = 658
+var canvas = document.getElementById('pablo')
 canvas.width = canvas.height = size
 
-const context = canvas.getContext('2d')
+var context = canvas.getContext('2d')
 
 function fillEntireCanvas (color) {
   context.beginPath()
@@ -13,7 +13,7 @@ function fillEntireCanvas (color) {
 }
 
 function textVariations (text) {
-  const index = text.lastIndexOf(' ')
+  var index = text.lastIndexOf(' ')
 
   if (index === -1) {
     return {
@@ -22,8 +22,8 @@ function textVariations (text) {
       third: text
     }
   } else {
-    const untilSpace = text.slice(0, index)
-    const afterSpace = text.slice(index + 1)
+    var untilSpace = text.slice(0, index)
+    var afterSpace = text.slice(index + 1)
 
     return {
       first: untilSpace + '        ' + afterSpace,
@@ -34,10 +34,10 @@ function textVariations (text) {
 }
 
 function repeatText (opts) {
-  const times = opts.times
-  const gap = opts.gap
-  const x = opts.x
-  const text = opts.text
+  var times = opts.times
+  var gap = opts.gap
+  var x = opts.x
+  var text = opts.text
 
   var y = opts.y
   for (var i = 0; i < times; i++, y+= gap) {
@@ -50,12 +50,12 @@ function repeatText (opts) {
   }
 }
 
-const imageCache = {}
+var imageCache = {}
 function loadImage (url, callback) {
   if (imageCache[url]) {
     callback.call(imageCache[url])
   } else {
-    const img = new Image()
+    var img = new Image()
     img.src = url
 
     img.onload = callback
@@ -71,15 +71,15 @@ function drawPablo (mainText, secondaryText) {
   context.fillStyle = 'black'
   context.font = 'bold 43px sans-serif'
 
-  const variations = textVariations(mainText)
+  var variations = textVariations(mainText)
 
-  const mainX = 92
-  const mainY = 64
-  const mainGap = 50
+  var mainX = 92
+  var mainY = 64
+  var mainGap = 50
 
   context.fillText(variations.first, mainX, mainY)
 
-  const result = repeatText({
+  var result = repeatText({
     times: 5,
     gap: mainGap,
     x: mainX,
@@ -116,8 +116,8 @@ function drawPablo (mainText, secondaryText) {
   })
 }
 
-const mainEl = document.getElementById('main-text')
-const secondaryEl = document.getElementById('secondary-text')
+var mainEl = document.getElementById('main-text')
+var secondaryEl = document.getElementById('secondary-text')
 
 function refresh () {
   drawPablo(mainEl.value, secondaryEl.value)
