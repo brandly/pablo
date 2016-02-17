@@ -56,6 +56,13 @@
       text-decoration: underline;
     }
 
+    .detail {
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+      line-height: 1.4;
+    }
+
     @media only screen and (min-width: 960px)  {
       .container {
         width: 960px;
@@ -68,6 +75,7 @@
 
       .controls {
         float: right;
+        max-width: 278px;
       }
     }
   </style>
@@ -84,6 +92,8 @@
         <div class="control-group">
           <input type="text" id="secondary-text" value="which / one">
         </div>
+        <p class="detail">Change the text.</p>
+        <p class="detail">Right-click on image to save.</p>
 
         <div class="source">
           <a href="https://github.com/brandly/pablo">source</a>
