@@ -28,7 +28,11 @@
       margin: 0 auto;
     }
 
-    #pablo {
+    #pablo-canvas {
+      display: none;
+    }
+
+    .pablo {
       max-width: 100%;
     }
 
@@ -88,7 +92,8 @@
   <body>
     <div class="container">
       <div class="art">
-        <canvas id="pablo"></canvas>
+        <canvas id="pablo-canvas" class="pablo"></canvas>
+        <img id="pablo-img" class="pablo">
       </div>
 
       <div class="controls">

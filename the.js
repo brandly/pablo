@@ -1,6 +1,6 @@
 'use strict'
 var size = 658
-var canvas = document.getElementById('pablo')
+var canvas = document.getElementById('pablo-canvas')
 canvas.width = canvas.height = size
 
 var context = canvas.getContext('2d')
@@ -63,7 +63,7 @@ function loadImage (url, callback) {
   }
 }
 
-function drawPablo (mainText, secondaryText) {
+function drawPablo (mainText, secondaryText, callback) {
   mainText = mainText.toUpperCase()
   secondaryText = secondaryText.toUpperCase()
 
@@ -107,20 +107,36 @@ function drawPablo (mainText, secondaryText) {
     text: secondaryText
   })
 
+  var bootyDrawn = false
   loadImage('booty.jpg', function () {
     context.drawImage(this, 290, 457, this.width, this.height)
+    bootyDrawn = true
+    runCallbackIfReady()
   })
 
+  var famDrawn = false
   loadImage('fam.jpg', function () {
     context.drawImage(this, 132, 198, this.width, this.height)
+    famDrawn = true
+    runCallbackIfReady()
   })
+
+  function runCallbackIfReady () {
+    if (bootyDrawn && famDrawn) {
+      callback()
+    }
+  }
 }
 
 var mainEl = document.getElementById('main-text')
 var secondaryEl = document.getElementById('secondary-text')
 
+var imageEl = document.getElementById('pablo-img')
 function refresh () {
-  drawPablo(mainEl.value, secondaryEl.value)
+  drawPablo(mainEl.value, secondaryEl.value, function () {
+    var pabloDataURL = canvas.toDataURL('image/png')
+    imageEl.src = pabloDataURL
+  })
 }
 
 mainEl.onkeyup = refresh
