@@ -33,6 +33,13 @@ function textVariations (text) {
   }
 }
 
+function drawImage(image, context, pos, size, callback) {
+   loadImage(image, function() {
+      context.drawImage(this, pos.x, pos.y, size.width, size.height)
+      callback()
+   })
+}
+
 function repeatText (opts) {
   var times = opts.times
   var gap = opts.gap
@@ -63,9 +70,11 @@ function loadImage (url, callback) {
   }
 }
 
-function drawPablo (mainText, secondaryText, callback) {
+function drawPablo (mainText, secondaryText, bootyPic, famPic, callback) {
   mainText = mainText.toUpperCase()
   secondaryText = secondaryText.toUpperCase()
+
+
 
   fillEntireCanvas('#F58B57')
   context.fillStyle = 'black'
@@ -108,18 +117,36 @@ function drawPablo (mainText, secondaryText, callback) {
   })
 
   var bootyDrawn = false
-  loadImage('booty.jpg', function () {
-    context.drawImage(this, 290, 457, this.width, this.height)
-    bootyDrawn = true
-    runCallbackIfReady()
-  })
+  var bootyPos = { x: 290, y: 457 }
+  var bootySize = { width: 179, height: 154 }
+
+  if (bootyPic) {
+    drawImage(URL.createObjectURL(bootyPic), context, bootyPos, bootySize, function() {
+      bootyDrawn = true
+      runCallbackIfReady()
+    })
+  } else {
+    drawImage('booty.jpg', context, bootyPos, bootySize, function() {
+      bootyDrawn = true
+      runCallbackIfReady()
+    })
+  }
 
   var famDrawn = false
-  loadImage('fam.jpg', function () {
-    context.drawImage(this, 132, 198, this.width, this.height)
-    famDrawn = true
-    runCallbackIfReady()
-  })
+  var famPos = { x: 261, y: 182 }
+  var famSize = { width: 261, height: 182}
+
+  if (famPic) {
+    drawImage(URL.createObjectURL(famPic), context, famPos, famSize, function() {
+      famDrawn = true
+      runCallbackIfReady()
+    })
+  } else {
+    drawImage('fam.jpg', context, famPos, famSize, function() {
+      famDrawn = true
+      runCallbackIfReady()
+    })
+  }
 
   function runCallbackIfReady () {
     if (bootyDrawn && famDrawn) {
@@ -130,10 +157,12 @@ function drawPablo (mainText, secondaryText, callback) {
 
 var mainEl = document.getElementById('main-text')
 var secondaryEl = document.getElementById('secondary-text')
+var bootypicEl = document.getElementById('booty-pic')
+var fampicEl = document.getElementById('fam-pic')
 
 var imageEl = document.getElementById('pablo-img')
 function refresh () {
-  drawPablo(mainEl.value, secondaryEl.value, function () {
+  drawPablo(mainEl.value, secondaryEl.value, bootypicEl.files[0], fampicEl.files[0], function () {
     var pabloDataURL = canvas.toDataURL('image/png')
     imageEl.src = pabloDataURL
   })
@@ -141,4 +170,6 @@ function refresh () {
 
 mainEl.onkeyup = refresh
 secondaryEl.onkeyup = refresh
+bootypicEl.onchange = refresh
+fampicEl.onchange = refresh
 refresh()
