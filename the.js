@@ -159,6 +159,7 @@ var mainEl = document.getElementById('main-text')
 var secondaryEl = document.getElementById('secondary-text')
 var bootypicEl = document.getElementById('booty-pic')
 var fampicEl = document.getElementById('fam-pic')
+var resetButtonEl = document.getElementById('reset-button')
 
 var imageEl = document.getElementById('pablo-img')
 function refresh () {
@@ -166,6 +167,14 @@ function refresh () {
     var pabloDataURL = canvas.toDataURL('image/png')
     imageEl.src = pabloDataURL
   })
+}
+
+resetButtonEl.onclick = function() {
+  mainEl.value = "the life of pablo"
+  secondaryEl.value = "which / one"
+  bootypicEl.value = ""
+  fampicEl.value = ""
+  refresh()
 }
 
 mainEl.onkeyup = refresh
