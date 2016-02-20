@@ -39,7 +39,8 @@
     .control-group {
       margin: 16px 0;
     }
-    .control-group input {
+    .control-group input,
+    .control-group label {
       display: block;
       margin: 0 auto;
 
@@ -47,6 +48,13 @@
       border: 1px solid #ccc;
       border-radius: 2px;
       padding: 6px 10px;
+
+      width: 278px;
+      max-width: 100%;
+    }
+
+    .control-group input[type="file"] {
+      display: none;
     }
 
     .source {
@@ -105,13 +113,14 @@
         </div>
         <div class="control-group">
           <input type="file" id="fam-pic" />
+          <label for="fam-pic" id="fam-label">fam.jpg</label>
         </div>
         <div class="control-group">
           <input type="file" id="booty-pic" />
+          <label for="booty-pic" id="booty-label">booty.jpg</label>
         </div>
-        <p class="detail">Change the text/pics.</p>
+        <p class="detail">Change the text &amp; pics.</p>
         <p class="detail">Right-click on image to save.</p>
-        <button id="reset-button" style="margin:auto;text-align:center;height:30px;width:200px;font-size:16px;">Click to Reset</button>
 
         <div class="source">
           <a href="https://github.com/brandly/pablo">source</a>

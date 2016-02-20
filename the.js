@@ -33,7 +33,7 @@ function textVariations (text) {
   }
 }
 
-function drawImage(image, context, pos, size, callback) {
+function drawImage(image, pos, size, callback) {
    loadImage(image, function() {
       context.drawImage(this, pos.x, pos.y, size.width, size.height)
       callback()
@@ -73,8 +73,6 @@ function loadImage (url, callback) {
 function drawPablo (mainText, secondaryText, bootyPic, famPic, callback) {
   mainText = mainText.toUpperCase()
   secondaryText = secondaryText.toUpperCase()
-
-
 
   fillEntireCanvas('#F58B57')
   context.fillStyle = 'black'
@@ -120,33 +118,19 @@ function drawPablo (mainText, secondaryText, bootyPic, famPic, callback) {
   var bootyPos = { x: 290, y: 457 }
   var bootySize = { width: 179, height: 154 }
 
-  if (bootyPic) {
-    drawImage(URL.createObjectURL(bootyPic), context, bootyPos, bootySize, function() {
-      bootyDrawn = true
-      runCallbackIfReady()
-    })
-  } else {
-    drawImage('booty.jpg', context, bootyPos, bootySize, function() {
-      bootyDrawn = true
-      runCallbackIfReady()
-    })
-  }
+  drawImage(bootyPic, bootyPos, bootySize, function() {
+    bootyDrawn = true
+    runCallbackIfReady()
+  })
 
   var famDrawn = false
   var famPos = { x: 261, y: 182 }
-  var famSize = { width: 261, height: 182}
+  var famSize = { width: 261, height: 182 }
 
-  if (famPic) {
-    drawImage(URL.createObjectURL(famPic), context, famPos, famSize, function() {
-      famDrawn = true
-      runCallbackIfReady()
-    })
-  } else {
-    drawImage('fam.jpg', context, famPos, famSize, function() {
-      famDrawn = true
-      runCallbackIfReady()
-    })
-  }
+  drawImage(famPic, famPos, famSize, function() {
+    famDrawn = true
+    runCallbackIfReady()
+  })
 
   function runCallbackIfReady () {
     if (bootyDrawn && famDrawn) {
@@ -157,28 +141,47 @@ function drawPablo (mainText, secondaryText, bootyPic, famPic, callback) {
 
 var mainEl = document.getElementById('main-text')
 var secondaryEl = document.getElementById('secondary-text')
-var bootypicEl = document.getElementById('booty-pic')
-var fampicEl = document.getElementById('fam-pic')
-var resetButtonEl = document.getElementById('reset-button')
 
-var imageEl = document.getElementById('pablo-img')
-function refresh () {
-  drawPablo(mainEl.value, secondaryEl.value, bootypicEl.files[0], fampicEl.files[0], function () {
-    var pabloDataURL = canvas.toDataURL('image/png')
-    imageEl.src = pabloDataURL
-  })
+var famPicEl = document.getElementById('fam-pic')
+var bootyPicEl = document.getElementById('booty-pic')
+
+var famLabelEl = document.getElementById('fam-label')
+var bootyLabelEl = document.getElementById('booty-label')
+
+var defaultBooty = 'booty.jpg'
+var defaultFam = 'fam.jpg'
+
+var finalImageEl = document.getElementById('pablo-img')
+
+function choosePic (files, _default) {
+  if (files.length) {
+    return {
+      pic: URL.createObjectURL(files[0]),
+      label: files[0].name
+    }
+  } else {
+    return {
+      pic: _default,
+      label: _default
+    }
+  }
 }
 
-resetButtonEl.onclick = function() {
-  mainEl.value = "the life of pablo"
-  secondaryEl.value = "which / one"
-  bootypicEl.value = ""
-  fampicEl.value = ""
-  refresh()
+function refresh () {
+  var booty = choosePic(bootyPicEl.files, defaultBooty)
+  var fam = choosePic(famPicEl.files, defaultFam)
+
+  drawPablo(mainEl.value, secondaryEl.value, booty.pic, fam.pic, function () {
+    var pabloDataURL = canvas.toDataURL('image/png')
+    finalImageEl.src = pabloDataURL
+
+    famLabelEl.innerHTML = fam.label
+    bootyLabelEl.innerHTML = booty.label
+  })
 }
 
 mainEl.onkeyup = refresh
 secondaryEl.onkeyup = refresh
-bootypicEl.onchange = refresh
-fampicEl.onchange = refresh
+bootyPicEl.onchange = refresh
+famPicEl.onchange = refresh
 refresh()
