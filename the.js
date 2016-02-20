@@ -124,7 +124,7 @@ function drawPablo (mainText, secondaryText, bootyPic, famPic, callback) {
   })
 
   var famDrawn = false
-  var famPos = { x: 261, y: 182 }
+  var famPos = { x: 132, y: 198 }
   var famSize = { width: 261, height: 182 }
 
   drawImage(famPic, famPos, famSize, function() {
